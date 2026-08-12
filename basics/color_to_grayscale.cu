@@ -1,8 +1,9 @@
 #include <iostream>
+#include <opencv2/opencv.hpp>
 #include <cuda_runtime.h>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "../include/stb_image.h"
 
 __global__
 void colorToGrayScaleKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int height, int channels){
@@ -39,7 +40,7 @@ void colorToGrayScaleConverter(unsigned char* PicIn_h, unsigned char* PicOut_h, 
 int main(){
     int width, height, channels;
     unsigned char* PicIn_h = stbi_load(
-        "image.jpg",
+        "../images/image.jpg",
         &width,
         &height,
         &channels,
@@ -49,9 +50,13 @@ int main(){
         std::cerr << "Failed to load image\n";
         return 1;
     }
-    std::cout << "Width : " << width << ", Height : " << height << ", Channels : " << channels << '\n';
+    cv::Mat image(height, width, CV_8UC3, PicIn_h);
+    // OpenCV expects BGR, while stb_image gives RGB.
+    cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
 
-    unsigned char* PicOut_h = new char[height][width];
-    colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
+    cv::imshow("Image", image);
+    cv::waitKey(0);
+    // unsigned char* PicOut_h = new char[height][width];
+    // colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
 }
 
