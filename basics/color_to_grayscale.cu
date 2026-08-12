@@ -50,13 +50,14 @@ int main(){
         std::cerr << "Failed to load image\n";
         return 1;
     }
-    cv::Mat image(height, width, CV_8UC3, PicIn_h);
+    // cv::Mat image(height, width, CV_8UC3, PicIn_h);
     // OpenCV expects BGR, while stb_image gives RGB.
-    cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
+    // cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
 
-    cv::imshow("Image", image);
-    cv::waitKey(0);
-    // unsigned char* PicOut_h = new char[height][width];
-    // colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
+    // cv::imshow("Image", image);
+    // cv::waitKey(0);
+    unsigned char* PicOut_h = new char[height][width];
+    colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
+    std::cout << "1st Pixel : " << PicOut[0][0]
 }
 
