@@ -39,6 +39,6 @@ int main(){
         B_h[i] = i+10;
     }
     vecAddition(A_h, B_h, C_h, n);
-    std::count << C_h[1] << std::endl;
+    std::cout << C_h[1] << std::endl;
     return 0;
 }
