@@ -11,21 +11,21 @@ void addVectorKernel(float* A, float* B, float* C, int n){
 
 void vecAddition(float* A, float* B, float* C, int n){
     float *A_d, *B_d, *C_d;
-    int size = n * sizeof(float)
-    cudaMalloc((void**) &A_d, size)
-    cudaMalloc((void**) &B_d, size)
-    cudaMalloc((void**) &C_d, size)
+    int size = n * sizeof(float);
+    cudaMalloc((void**) &A_d, size);
+    cudaMalloc((void**) &B_d, size);
+    cudaMalloc((void**) &C_d, size);
 
     cudaMemcpy(A_d, A, size, cudaMemcpyHostToDevice);
     cudaMemcpy(B_d, B, size, cudaMemcpyHostToDevice);
 
-    addVectorKernel<<<ceil(n/256.0, 256)>>>(A_d, B_d, C_d, n);
+    addVectorKernel<<<ceil(n/256.0), 256>>>(A_d, B_d, C_d, n);
 
     cudaMemcpy(C, C_d, size, cudaMemcpyDeviceToHost);
 
-    cudaFree(A_d)
-    cudaFree(B_d)
-    cudaFree(C_d)
+    cudaFree(A_d);
+    cudaFree(B_d);
+    cudaFree(C_d);
 }
 
 int main(){
@@ -36,7 +36,7 @@ int main(){
 
     for(int i=0;i<n;i++){
         A_h[i] = i;
-        B_h[i] = i+10
+        B_h[i] = i+10;
     }
     vecAddition(A_h, B_h, C_h, n);
     std::count << C_h[1] << std::endl;
