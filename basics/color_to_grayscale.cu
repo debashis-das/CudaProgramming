@@ -58,6 +58,6 @@ int main(){
     // cv::waitKey(0);
     unsigned char* PicOut_h = new char[height][width];
     colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
-    std::cout << "1st Pixel : " << PicOut_h[0][0] << std::endl;
+    std::cout << "Pixels : " << *PicOut_h << std::endl;
 }
 
