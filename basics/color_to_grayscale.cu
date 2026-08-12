@@ -16,14 +16,14 @@ void colorToGrayScaleKernel(unsigned char* PicIn, unsigned char* PicOut, int wid
         int idxWithChannels = grayScaleIdx * channels;
         unsigned char r = PicIn[idxWithChannels];
         unsigned char g = PicIn[idxWithChannels+1];
-        unsigned char b = Picin[idxWithChannels+2];
+        unsigned char b = PicIn[idxWithChannels+2];
         // based on 0.21*red + 0.71*green + 0.07*blue
         PicOut[grayScaleIdx] = (unsigned char) 0.21*r + 0.71*g + 0.07*b;
     }
 }
 
 void colorToGrayScaleConverter(unsigned char* PicIn_h, unsigned char* PicOut_h, int width, int height, int channels){
-    unsigned char* PicIn_d, PicOut_d;
+    unsigned char *PicIn_d, *PicOut_d;
     int picSizeIn = width * height * channels * sizeof(char);
     int picSizeOut = width * height * sizeof(char);
     cudaMalloc((void**) &PicIn_d, picSizeIn);
@@ -31,7 +31,7 @@ void colorToGrayScaleConverter(unsigned char* PicIn_h, unsigned char* PicOut_h, 
 
     cudaMemcpy(PicIn_d, PicIn_h, picSizeIn, cudaMemcpyHostToDevice);
     colorToGrayScaleKernel<<<ceil((width*height)/256.0), 256>>>(PicIn_d, PicOut_d, width, height, channels);
-    cudaMemcpu(PicOut_h, PicOut_d, picSizeOut, cudaMemcpuDeviceToHost);
+    cudaMemcpy(PicOut_h, PicOut_d, picSizeOut, cudaMemcpyDeviceToHost);
 
     cudaFree(PicIn_d);
     cudaFree(PicOut_d);
