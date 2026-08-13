@@ -24,7 +24,7 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
                     int currentIdx = (current_row*width + current_col)*channels;
                     for(int i=0; i<channels; i++){
                         if(idx == 0){
-                            printf("PicIn for i=%d is %d", i, PicIn[currentIdx+i]);
+                            printf("PicIn for i=%d is %d\n", i, PicIn[currentIdx+i]);
                         }
                         perChannel[i] += PicIn[currentIdx+i];
                     }
