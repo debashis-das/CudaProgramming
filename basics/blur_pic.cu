@@ -23,9 +23,6 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
                 if((current_row >= 0 && current_row < height) && (current_col >=0 && current_col < width)){
                     int currentIdx = (current_row*width + current_col)*channels;
                     for(int i=0; i<channels; i++){
-                        if(idx == 0){
-                            printf("[r:%d, c:%d]PicIn for i=%d is %d\n", r, c, i, PicIn[currentIdx+i]);
-                        }
                         perChannel[i] += PicIn[currentIdx+i];
                     }
                     count += 1;
@@ -34,9 +31,6 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
         }
         int idxPerChannel = currentIndex*channels;
         for(int i=0;i<channels;i++){
-            if(idx == 0){
-                printf("PicOut for average=%f\n", (float)perChannel[i]/count);
-            }
             PicOut[idxPerChannel+i] = (unsigned char)((float)perChannel[i]/count);
         }
     }
@@ -71,18 +65,6 @@ int main(){
         std::cerr << "Failed to load image\n";
         return 1;
     }
-    int idx = 0;
-    for(int r=-blurSize; r<blurSize+1; r++){
-        for(int c=-blurSize; c<blurSize+1; c++){
-            int current_row = r;
-            int current_col = c;
-            if((current_row >= 0 && current_row < height) && (current_col >=0 && current_col < width)){
-                int currentIdx = (current_row*width + current_col)*channels;
-                printf("[r:%d, c:%d] R=%d G=%d B=%d\n", r, c, PicIn_h[currentIdx], PicIn_h[currentIdx + 1], PicIn_h[currentIdx + 2]);
-            }
-        }
-    }
-
     unsigned char* PicOut_h = new unsigned char[width*height*channels];
     blurPic(PicIn_h, PicOut_h, width, height, channels, blurSize);
     int success = stbi_write_png(
