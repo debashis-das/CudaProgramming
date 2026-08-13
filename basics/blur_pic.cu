@@ -48,7 +48,7 @@ void blurPic(unsigned char* PicIn_h, unsigned char* PicOut_h, int width, int hei
     cudaMemcpy(PicIn_d, PicIn_h, picSizeIn, cudaMemcpyHostToDevice);
     blurPicKernel<<<ceil((width*height)/256.0), 256>>>(PicIn_d, PicOut_d, width, height, channels, blurSize);
     
-    err = cudaGetLastError();
+    cudaError_t err = cudaGetLastError();
     if (err != cudaSuccess) {
         std::cerr << "Kernel launch: "
                   << cudaGetErrorString(err) << std::endl;
