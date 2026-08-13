@@ -38,7 +38,7 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
             if(idx == 0){
                 printf("PicOut for average=%f\n", (float)perChannel[i]/count);
             }
-            PicOut[idxPerChannel+i] = (unsigned char)((float)perChannel[i]/count);
+            PicOut[idxPerChannel+i] = perChannel[i]/count;
         }
     }
 }
