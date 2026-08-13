@@ -56,7 +56,7 @@ int main(){
 
     // cv::imshow("Image", image);
     // cv::waitKey(0);
-    unsigned char* PicOut_h = new char[height][width];
+    unsigned char* PicOut_h = new unsigned char[width*height];
     colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
     std::cout << "Pixels : " << *PicOut_h << std::endl;
 }
