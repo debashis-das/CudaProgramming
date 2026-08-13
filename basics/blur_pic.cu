@@ -15,7 +15,7 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
     if (row < height && col < width){
         int currentIndex = row*width + col;
         int count = 0;
-        int *perChannel = new int[channels];
+        int *perChannel = new int[channels]();
         for(int r=-blurSize; r<blurSize+1; r++){
             for(int c=-blurSize; c<blurSize+1; c++){
                 int current_row = row+r;
@@ -73,7 +73,7 @@ int main(){
         height,
         channels,
         PicOut_h,
-        width
+        width * channels
     );
     if (!success) {
         std::cerr << "Failed to save image\n";
