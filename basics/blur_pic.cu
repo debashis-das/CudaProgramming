@@ -66,7 +66,7 @@ void blurPic(unsigned char* PicIn_h, unsigned char* PicOut_h, int width, int hei
 
 int main(){
     int width = 4032 , height = 3024, channels = 3;
-    int blurSize = 1;
+    int blurSize = 5;
     unsigned char* PicIn_h = stbi_load(
         "../images/image.jpg",
         &width,
