@@ -1,5 +1,4 @@
 #include <iostream>
-#include <opencv2/opencv.hpp>
 #include <cuda_runtime.h>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -53,12 +52,6 @@ int main(){
         std::cerr << "Failed to load image\n";
         return 1;
     }
-    // cv::Mat image(height, width, CV_8UC3, PicIn_h);
-    // OpenCV expects BGR, while stb_image gives RGB.
-    // cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
-
-    // cv::imshow("Image", image);
-    // cv::waitKey(0);
     unsigned char* PicOut_h = new unsigned char[width*height];
     colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
     int success = stbi_write_png(
