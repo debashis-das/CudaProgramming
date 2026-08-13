@@ -38,7 +38,7 @@ void colorToGrayScaleConverter(unsigned char* PicIn_h, unsigned char* PicOut_h, 
 }
 
 int main(){
-    int width, height, channels;
+    int width = 4032 , height = 3024, channels = 3;
     unsigned char* PicIn_h = stbi_load(
         "../images/image.jpg",
         &width,
