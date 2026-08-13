@@ -28,7 +28,7 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
                 }
             }
         }
-        int idxPerChannel = idx*channels
+        int idxPerChannel = idx*channels;
         for(int i=0;i<channels;i++){
             PicOut[idxPerChannel+i] = (unsigned char)((float)perChannel[i]/count);
         }
