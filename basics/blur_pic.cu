@@ -72,11 +72,8 @@ int main(){
         std::cerr << "Failed to load image\n";
         return 1;
     }
-    int idx = 0
-    printf("R=%d G=%d B=%d\n",
-       PicIn_h[idx],
-       PicIn_h[idx + 1],
-       PicIn_h[idx + 2]);
+    int idx = 0;
+    printf("R=%d G=%d B=%d\n", PicIn_h[idx], PicIn_h[idx + 1], PicIn_h[idx + 2]);
 
     unsigned char* PicOut_h = new unsigned char[width*height*channels];
     blurPic(PicIn_h, PicOut_h, width, height, channels, blurSize);
