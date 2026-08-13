@@ -9,20 +9,19 @@
 
 __global__
 void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int height, int channels, int blurSize){
-    // without channels
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int row = idx / width;
     int col = idx % width;
     if (row < height && col < width){
         int idx = row*width + col;
         int count = 0;
-        int *perChannel = new int[channels]
-        for(int r=-blurSize;r<blurSize+1;r++){
-            for(int c=-blurSize;c<blurSize+1;c++){
+        int *perChannel = new int[channels];
+        for(int r=-blurSize; r<blurSize+1; r++){
+            for(int c=-blurSize; c<blurSize+1; c++){
                 if((row+r >= 0 && row+r < height) && (col+c >=0 && col+c < width)){
                     int offset = r*width + c;
                     int currentIdx = (idx + offset)*channels;
-                    for(int i=0;i<channels;i++){
+                    for(int i=0; i<channels; i++){
                         perChannel[i] += PicIn[currentIdx+i];
                     }
                     count += 1;
@@ -71,7 +70,7 @@ int main(){
         "../images/blur.png",
         width,
         height,
-        1,
+        channels,
         PicOut_h,
         width
     );
