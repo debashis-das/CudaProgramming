@@ -18,9 +18,10 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
         int *perChannel = new int[channels];
         for(int r=-blurSize; r<blurSize+1; r++){
             for(int c=-blurSize; c<blurSize+1; c++){
-                if((row+r >= 0 && row+r < height) && (col+c >=0 && col+c < width)){
-                    int offset = r*width + c;
-                    int currentIdx = (idx + offset)*channels;
+                current_row = row+r
+                current_col = col+c
+                if((current_row >= 0 && current_row < height) && (current_col >=0 && current_col < width)){
+                    int currentIdx = (current_row*width + current_col)*channels;
                     for(int i=0; i<channels; i++){
                         perChannel[i] += PicIn[currentIdx+i];
                     }
@@ -30,6 +31,7 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
         }
         int idxPerChannel = idx*channels;
         for(int i=0;i<channels;i++){
+            printf("count=%d, sum=%d\n", count, perChannel[i])
             PicOut[idxPerChannel+i] = (unsigned char)((float)perChannel[i]/count);
         }
     }
@@ -52,7 +54,7 @@ void blurPic(unsigned char* PicIn_h, unsigned char* PicOut_h, int width, int hei
 
 int main(){
     int width = 4032 , height = 3024, channels = 3;
-    int blurSize = 1;
+    int blurSize = 3;
     unsigned char* PicIn_h = stbi_load(
         "../images/image.jpg",
         &width,
