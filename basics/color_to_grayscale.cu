@@ -5,6 +5,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../include/stb_image.h"
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 __global__
 void colorToGrayScaleKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int height, int channels){
     // without channels
@@ -58,6 +61,22 @@ int main(){
     // cv::waitKey(0);
     unsigned char* PicOut_h = new unsigned char[width*height];
     colorToGrayScaleConverter(PicIn_h, PicOut_h, width, height, channels);
-    std::cout << "Pixels : " << *PicOut_h << std::endl;
+    int success = stbi_write_png(
+        "../images/grayscale.png",
+        width,
+        height,
+        1,
+        PicOut_h,
+        width
+    );
+    if (!success) {
+        std::cerr << "Failed to save image\n";
+    } else {
+        std::cout << "Grayscale image saved successfully\n";
+    }
+    delete[] PicOut_h;
+    stbi_image_free(PicIn_h);
+
+    return 0;
 }
 
