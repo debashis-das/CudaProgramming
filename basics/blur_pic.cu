@@ -31,7 +31,7 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
         }
         int idxPerChannel = idx*channels;
         for(int i=0;i<channels;i++){
-            printf("count=%d, sum=%d\n", count, perChannel[i])
+            printf("count=%d, sum=%d\n", count, perChannel[i]);
             PicOut[idxPerChannel+i] = (unsigned char)((float)perChannel[i]/count);
         }
     }
