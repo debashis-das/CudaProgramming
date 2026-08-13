@@ -6,7 +6,7 @@
 #include "../include/stb_image.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
+#include "../include/stb_image_write.h"
 
 __global__
 void colorToGrayScaleKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int height, int channels){
