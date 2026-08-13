@@ -15,38 +15,51 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
     if (row < height && col < width){
         int currentIndex = row*width + col;
         int count = 0;
-        int *perChannel = new int[channels]();
+        int red = 0;
+        int green = 0;
+        int blue = 0;
         for(int r=-blurSize; r<blurSize+1; r++){
             for(int c=-blurSize; c<blurSize+1; c++){
                 int current_row = row+r;
                 int current_col = col+c;
                 if((current_row >= 0 && current_row < height) && (current_col >=0 && current_col < width)){
                     int currentIdx = (current_row*width + current_col)*channels;
-                    for(int i=0; i<channels; i++){
-                        perChannel[i] += PicIn[currentIdx+i];
-                    }
+                    red += PicIn[currentIdx];
+                    green += PicIn[currentIdx+1];
+                    blue += PicIn[currentIdx+2];
                     count += 1;
                 }
             }
         }
         int idxPerChannel = currentIndex*channels;
-        for(int i=0;i<channels;i++){
-            PicOut[idxPerChannel+i] = (unsigned char)((float)perChannel[i]/count);
-        }
+        PicOut[idxPerChannel] = (unsigned char)((float)red/count);
+        PicOut[idxPerChannel+1] = (unsigned char)((float)green/count);
+        PicOut[idxPerChannel+2] = (unsigned char)((float)blue/count);
     }
 }
 
 void blurPic(unsigned char* PicIn_h, unsigned char* PicOut_h, int width, int height, int channels, int blurSize){
     unsigned char *PicIn_d, *PicOut_d;
-    int picSizeIn = width * height * channels * sizeof(char);
-    int picSizeOut = width * height * channels * sizeof(char);
+    int picSizeIn = width * height * channels * sizeof(unsigned char);
+    int picSizeOut = width * height * channels * sizeof(unsigned char);
     cudaMalloc((void**) &PicIn_d, picSizeIn);
     cudaMalloc((void**) &PicOut_d, picSizeOut);
 
     cudaMemcpy(PicIn_d, PicIn_h, picSizeIn, cudaMemcpyHostToDevice);
     blurPicKernel<<<ceil((width*height)/256.0), 256>>>(PicIn_d, PicOut_d, width, height, channels, blurSize);
-    cudaMemcpy(PicOut_h, PicOut_d, picSizeOut, cudaMemcpyDeviceToHost);
+    
+    err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        std::cerr << "Kernel launch: "
+                  << cudaGetErrorString(err) << std::endl;
+    }
+    err = cudaDeviceSynchronize();
+    if (err != cudaSuccess) {
+        std::cerr << "Kernel execution: "
+                  << cudaGetErrorString(err) << std::endl;
+    }
 
+    cudaMemcpy(PicOut_h, PicOut_d, picSizeOut, cudaMemcpyDeviceToHost);
     cudaFree(PicIn_d);
     cudaFree(PicOut_d);
 }
