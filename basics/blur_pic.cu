@@ -18,8 +18,8 @@ void blurPicKernel(unsigned char* PicIn, unsigned char* PicOut, int width, int h
         int *perChannel = new int[channels];
         for(int r=-blurSize; r<blurSize+1; r++){
             for(int c=-blurSize; c<blurSize+1; c++){
-                current_row = row+r
-                current_col = col+c
+                current_row = row+r;
+                current_col = col+c;
                 if((current_row >= 0 && current_row < height) && (current_col >=0 && current_col < width)){
                     int currentIdx = (current_row*width + current_col)*channels;
                     for(int i=0; i<channels; i++){
