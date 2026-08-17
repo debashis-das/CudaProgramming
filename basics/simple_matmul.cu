@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-
+#include <random>
 #include <cuda_runtime.h>
 
 __global__
