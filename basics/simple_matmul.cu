@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdexcept>
 
-#include <curand_kernel.h>
 #include <cuda_runtime.h>
 
 __global__
@@ -49,19 +48,23 @@ int main(){
     float B_h[B_row][B_col];
     float C_h[A_row][B_col];
 
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::normal_distribution<float> dist(0.0f, 1.0f);
+
     for (int i = 0; i < A_row; i++) {
         for (int j = 0; j < A_col; j++) {
-            A_h[i][j] = curand_normal(&state);
+            A_h[i][j] = dist(&state);
         }
     }
 
     for (int i = 0; i < B_row; i++) {
         for (int j = 0; j < B_col; j++) {
-            B_h[i][j] = curand_normal(&state);
+            B_h[i][j] = dist(&state);
         }
     }
     try{
-        int a_block_size = 256, b_block_size=128
+        int a_block_size = 256, b_block_size=128;
         matrixMultiplication(A_h, B_h, C_h, A_row, A_col, B_row, B_col, a_block_size, b_block_size);
     }
     catch (const std::exception& e){
