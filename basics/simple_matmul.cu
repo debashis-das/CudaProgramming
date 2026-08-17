@@ -77,5 +77,8 @@ int main(){
     catch (const std::exception& e){
         std::cout << "Error: " << e.what() << "\n";
     }
+    delete[] A_h;
+    delete[] B_h;
+    delete[] C_h;
     return 0;
 }
