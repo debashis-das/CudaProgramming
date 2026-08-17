@@ -54,13 +54,13 @@ int main(){
 
     for (int i = 0; i < A_row; i++) {
         for (int j = 0; j < A_col; j++) {
-            A_h[i][j] = dist(gen);
+            A_h[i*A_row+j] = dist(gen);
         }
     }
 
     for (int i = 0; i < B_row; i++) {
         for (int j = 0; j < B_col; j++) {
-            B_h[i][j] = dist(gen);
+            B_h[i*B_row+j] = dist(gen);
         }
     }
     try{
