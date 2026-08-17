@@ -66,7 +66,7 @@ int main(){
     try{
         int a_block_size = 256, b_block_size=128;
         matrixMultiplication(A_h, B_h, C_h, A_row, A_col, B_row, B_col, a_block_size, b_block_size);
-        std::cout << "Matrix multplication success"
+        std::cout << "Matrix multplication success"<< "\n";
         for (int i = 0; i < A_row; i++) {
             for (int j = 0; j < B_col; j++) {
                 std::cout << C_h[i*B_row + j] << " ";
