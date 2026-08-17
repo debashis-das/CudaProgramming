@@ -92,9 +92,10 @@ int main(){
             }
         }
     }
+    std::cout << "----- Matrix Verify by difference -----"<< "\n";
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            std::cout << matrix_verify_h[i*B_col + j] << " ";
+            std::cout << C_h[i*B_col + j] - matrix_verify_h[i*B_col + j] << " ";
         }
         std::cout << "\n";
     }
