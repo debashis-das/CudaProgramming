@@ -16,7 +16,7 @@ void matmulKernel(float* A, float* B, float* C, int A_row, int B_cols, int same_
     }
 }
 
-void matrixMultiplication(float* A, float* B, float* C, int A_row, int A_col, int B_row, int B_col, int a_block_size, int b_block_size){
+void matrixMultiplication(float *A, float *B, float *C, int A_row, int A_col, int B_row, int B_col, int a_block_size, int b_block_size){
     if(A_col != B_row){
         throw std::runtime_error("A's columns is not same as B's row");
     }
@@ -35,7 +35,7 @@ void matrixMultiplication(float* A, float* B, float* C, int A_row, int A_col, in
     dim3 dimBlock(a_block_size, b_block_size, 1);
     matmulKernel<<<dimGrid, dimBlock>>>(A_d, B_d, C_d, A_row, B_col, A_col);
 
-    cudaMemcpy(C, C_d, size, cudaMemcpyDeviceToHost);
+    cudaMemcpy(C, C_d, size_C, cudaMemcpyDeviceToHost);
 
     cudaFree(A_d);
     cudaFree(B_d);
@@ -44,9 +44,9 @@ void matrixMultiplication(float* A, float* B, float* C, int A_row, int A_col, in
 
 int main(){
     int A_row = 1000, A_col = 500, B_row = 500, B_col = 2000;
-    float A_h[A_row][A_col];
-    float B_h[B_row][B_col];
-    float C_h[A_row][B_col];
+    float *A_h = new float[A_row][B_col];
+    float *B_h = new float[B_row][B_col];
+    float *C_h = new float[A_row][B_col];
 
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -54,13 +54,13 @@ int main(){
 
     for (int i = 0; i < A_row; i++) {
         for (int j = 0; j < A_col; j++) {
-            A_h[i][j] = dist(&state);
+            A_h[i][j] = dist(gen);
         }
     }
 
     for (int i = 0; i < B_row; i++) {
         for (int j = 0; j < B_col; j++) {
-            B_h[i][j] = dist(&state);
+            B_h[i][j] = dist(gen);
         }
     }
     try{
