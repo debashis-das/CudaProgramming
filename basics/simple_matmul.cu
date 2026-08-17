@@ -88,7 +88,7 @@ int main(){
     for (int i = 0; i < A_row; i++) {
         for (int j = 0; j < B_col; j++) {
             for(int k=0; k<A_col; k++){
-                matrix_verify_h[i*B_col+j] += A_h[i*A_col+k] * B[k*B_col+j];
+                matrix_verify_h[i*B_col+j] += A_h[i*A_col+k] * B_h[k*B_col+j];
             }
         }
     }
