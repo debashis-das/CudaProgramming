@@ -35,6 +35,13 @@ void matrixMultiplication(float *A, float *B, float *C, int A_row, int A_col, in
     dim3 dimBlock(a_block_size, b_block_size, 1);
     matmulKernel<<<dimGrid, dimBlock>>>(A_d, B_d, C_d, A_row, B_col, A_col);
 
+    // Error handline
+    cudaError_t err = cudaGetLastError();
+
+    if (err != cudaSuccess) {
+        throw std::runtime_error(cudaGetErrorString(err));
+    }
+    
     cudaMemcpy(C, C_d, size_C, cudaMemcpyDeviceToHost);
 
     cudaFree(A_d);
@@ -64,7 +71,7 @@ int main(){
         }
     }
     try{
-        int a_block_size = 256, b_block_size=128;
+        int a_block_size = 32, b_block_size=32;
         matrixMultiplication(A_h, B_h, C_h, A_row, A_col, B_row, B_col, a_block_size, b_block_size);
         std::cout << "Matrix multplication success"<< "\n";
         for (int i = 0; i < 10; i++) {
