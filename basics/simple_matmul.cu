@@ -71,7 +71,7 @@ int main(){
             for (int j = 0; j < B_col; j++) {
                 std::cout << C_h[i*B_row + j] << " ";
             }
-            std::cout << "\n"
+            std::cout << "\n";
         }
     }
     catch (const std::exception& e){
