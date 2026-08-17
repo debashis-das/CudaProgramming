@@ -84,6 +84,20 @@ int main(){
     catch (const std::exception& e){
         std::cout << "Error: " << e.what() << "\n";
     }
+    float *matrix_verify_h = new float[A_row * B_col]();
+    for (int i = 0; i < A_row; i++) {
+        for (int j = 0; j < B_col; j++) {
+            for(int k=0; k<A_col; k++){
+                matrix_verify_h[i*B_col+j] += A_h[i*A_col+k] * B[k*B_col+j];
+            }
+        }
+    }
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            std::cout << matrix_verify_h[i*B_col + j] << " ";
+        }
+        std::cout << "\n";
+    }
     delete[] A_h;
     delete[] B_h;
     delete[] C_h;
