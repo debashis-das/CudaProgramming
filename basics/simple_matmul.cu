@@ -44,9 +44,9 @@ void matrixMultiplication(float *A, float *B, float *C, int A_row, int A_col, in
 
 int main(){
     int A_row = 1000, A_col = 500, B_row = 500, B_col = 2000;
-    float *A_h = new float[A_row][B_col];
-    float *B_h = new float[B_row][B_col];
-    float *C_h = new float[A_row][B_col];
+    float *A_h = new float[A_row * A_col];
+    float *B_h = new float[B_row * B_col];
+    float *C_h = new float[A_row * B_col];
 
     std::random_device rd;
     std::mt19937 gen(rd());
