@@ -8,11 +8,11 @@ void matmulKernel(float* A, float* B, float* C, int A_row, int B_cols, int same_
     int row = threadIdx.x + blockDim.x * blockIdx.x;
     int col = threadIdx.y + blockDim.y * blockIdx.y;
     if(row < A_row && col < B_cols){
-        int sum = 0;
+        int sum = 0.0f;
         for(int i=0;i<same_dim;i++){
-            sum += A[row*same_dim+i] * B[i*same_dim + col]; 
+            sum += A[row*same_dim+i] * B[i*B_cols + col]; 
         }
-        C[row*same_dim+col] = sum;
+        C[row*B_cols+col] = sum;
     }
 }
 
@@ -31,7 +31,7 @@ void matrixMultiplication(float *A, float *B, float *C, int A_row, int A_col, in
     cudaMemcpy(A_d, A, size_A, cudaMemcpyHostToDevice);
     cudaMemcpy(B_d, B, size_B, cudaMemcpyHostToDevice);
 
-    dim3 dimGrid(ceil(A_row/a_block_size), ceil(B_col/b_block_size), 1);
+    dim3 dimGrid(ceil((A_row+a_block_size-1)/a_block_size), ceil(B_col+b_block_size-1/b_block_size), 1);
     dim3 dimBlock(a_block_size, b_block_size, 1);
     matmulKernel<<<dimGrid, dimBlock>>>(A_d, B_d, C_d, A_row, B_col, A_col);
 
@@ -54,13 +54,13 @@ int main(){
 
     for (int i = 0; i < A_row; i++) {
         for (int j = 0; j < A_col; j++) {
-            A_h[i*A_row+j] = dist(gen);
+            A_h[i*A_col+j] = dist(gen);
         }
     }
 
     for (int i = 0; i < B_row; i++) {
         for (int j = 0; j < B_col; j++) {
-            B_h[i*B_row+j] = dist(gen);
+            B_h[i*B_col+j] = dist(gen);
         }
     }
     try{
@@ -69,7 +69,7 @@ int main(){
         std::cout << "Matrix multplication success"<< "\n";
         for (int i = 0; i < A_row; i++) {
             for (int j = 0; j < B_col; j++) {
-                std::cout << C_h[i*B_row + j] << " ";
+                std::cout << C_h[i*B_col + j] << " ";
             }
             std::cout << "\n";
         }
