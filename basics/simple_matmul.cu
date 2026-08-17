@@ -8,7 +8,7 @@ void matmulKernel(float* A, float* B, float* C, int A_row, int B_cols, int same_
     int row = threadIdx.x + blockDim.x * blockIdx.x;
     int col = threadIdx.y + blockDim.y * blockIdx.y;
     if(row < A_row && col < B_cols){
-        int sum = 0.0f;
+        float sum = 0.0f;
         for(int i=0;i<same_dim;i++){
             sum += A[row*same_dim+i] * B[i*B_cols + col]; 
         }
@@ -67,8 +67,8 @@ int main(){
         int a_block_size = 256, b_block_size=128;
         matrixMultiplication(A_h, B_h, C_h, A_row, A_col, B_row, B_col, a_block_size, b_block_size);
         std::cout << "Matrix multplication success"<< "\n";
-        for (int i = 0; i < A_row; i++) {
-            for (int j = 0; j < B_col; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 std::cout << C_h[i*B_col + j] << " ";
             }
             std::cout << "\n";
